@@ -1,2 +1,19 @@
+# Environment variables
 .env
-backend/__pycache__
+
+# Python virtual environment
+backend/venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Flask instance data
+backend/instance/
+
+# Node dependencies
+frontend/node_modules/
+
+# React production build
+frontend/build/

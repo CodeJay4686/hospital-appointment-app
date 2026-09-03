@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, make_response, request, jsonify, render_template
+from flask import Flask, make_response, request, jsonify, render_template, session
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from werkzeug.exceptions import NotFound
@@ -17,6 +17,7 @@ app = Flask(
     static_folder='../frontend/build',
     template_folder='../frontend/build'
     )
+app.config['SECRET_KEY'] = 'dev-secret-key-change-later'
 # bcrypt= Bcrypt(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hospital.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
