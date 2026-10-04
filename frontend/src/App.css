@@ -870,10 +870,12 @@ td {
 }
 
 .login-form-group label {
+  display: block;
+  width: 100%;
   font-size: 13px;
   font-weight: 600;
   color: #374151;
-  margin-bottom: 7px;
+  margin-bottom: 9px;
 }
 
 .login-input {
