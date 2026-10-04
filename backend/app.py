@@ -103,53 +103,7 @@ def require_roles(*allowed_roles):
 
     return user, None, None
 
-# =========================================
-# TEMPORARY ADMIN BOOTSTRAP
-# =========================================
 
-@app.route('/bootstrap-admin', methods=['POST'])
-def bootstrap_admin():
-    bootstrap_key = request.headers.get('X-Bootstrap-Key')
-    expected_key = os.environ.get('ADMIN_BOOTSTRAP_KEY')
-
-    if not expected_key or bootstrap_key != expected_key:
-        return {'error': 'Not found'}, 404
-
-    username = os.environ.get('ADMIN_BOOTSTRAP_USERNAME')
-    password = os.environ.get('ADMIN_BOOTSTRAP_PASSWORD')
-
-    if not username or not password:
-        return {'error': 'Bootstrap credentials are not configured'}, 500
-
-    existing_user = User.query.filter_by(username=username).first()
-
-    if existing_user:
-        return {
-            'message': 'Administrator already exists',
-            'username': username
-        }, 200
-
-    try:
-        hashed_password = generate_password_hash(password)
-
-        new_admin = User(
-            username=username,
-            password=hashed_password,
-            role='Administrator'
-        )
-
-        db.session.add(new_admin)
-        db.session.commit()
-
-        return {
-            'message': 'Administrator created successfully',
-            'username': username,
-            'role': 'Administrator'
-        }, 201
-
-    except Exception as e:
-        db.session.rollback()
-        return {'error': str(e)}, 500
 
 # =========================================
 # ERROR HANDLER
