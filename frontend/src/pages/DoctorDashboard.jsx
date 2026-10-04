@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
-
+import { Spinner } from 'react-bootstrap';
 import Header from '../components/Header';
 import Menu from '../components/Menu';
 

@@ -15,8 +15,9 @@ function AppointmentTable() {
    */
 
   useEffect(() => {
-    fetchAppointments();
-  }, []);
+  fetchAppointments();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const fetchAppointments = async () => {
     setLoading(true);

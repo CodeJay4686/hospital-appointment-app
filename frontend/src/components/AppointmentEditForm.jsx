@@ -25,8 +25,9 @@ function AppointmentEditForm() {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    loadPage();
-  }, [id]);
+  loadPage();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [id]);
 
   const loadPage = async () => {
     setLoading(true);

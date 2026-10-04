@@ -12,8 +12,9 @@ function AppointmentTableID() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchAppointment();
-  }, [id]);
+  fetchAppointment();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const fetchAppointment = async () => {
     setLoading(true);
