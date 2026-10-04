@@ -1,98 +1,399 @@
-import React from 'react'
-import { useState} from "react"
-import {Form,Row,Col,Container, Button} from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
 
 function DoctorForm() {
-    const[loading, setLoading]= useState(false);
-    // const[error, setError]= useState(null);
-    const [doctorData, setdoctorData] = useState({
-        name: '',
-        specialisation: '',
-        start_date: '',        
-        email: '',
-        gender: '',
-        contact_number: '',
-        status: '',        
+  const [userRole, setUserRole] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+
+  const [doctorData, setDoctorData] = useState({
+    username: '',
+    password: '',
+    name: '',
+    specialisation: 'Doctor',
+    start_date: '',
+    email: '',
+    contact_number: '',
+    status: 'Active',
+  });
+
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  /* =========================================
+     CHECK CURRENT SESSION
+     ========================================= */
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const response = await fetch('/checkSession', {
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            'Unable to verify your session.'
+          );
+        }
+
+        const user = await response.json();
+
+        setUserRole(user.role || '');
+      } catch (error) {
+        console.error('Session error:', error);
+
+        setError(
+          'Unable to verify your session.'
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
+  }, []);
+
+  /* =========================================
+     HANDLE INPUT
+     ========================================= */
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setDoctorData((currentData) => ({
+      ...currentData,
+      [name]: value,
+    }));
+  };
+
+  /* =========================================
+     SUBMIT FORM
+     ========================================= */
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (userRole !== 'Administrator') {
+      setError(
+        'Only an Administrator can register a doctor.'
+      );
+      return;
+    }
+
+    setSubmitting(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('/staffs', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(doctorData),
       });
 
-    const handleInputChange = (e) => {
-        setdoctorData({
-          ...doctorData,
-          [e.target.name]: e.target.value,
-        });
-      };
+      const data = await response.json();
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        try {
-          const response = await fetch('/staffs', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(doctorData),
-          });
-    
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-    
-          const data = await response.json();
-          console.log('Data posted successfully:', data);
-        } catch (error) {
-          // setError(error.message);
-          console.error('Error posting data:', error);
-        } finally {
-          // setLoading(false);
-          window.location.reload()
-        }
-      };
-      if  (loading){
-        return <h4>Loading...</h4>
+      if (!response.ok) {
+        throw new Error(
+          data.error ||
+            'Unable to register doctor.'
+        );
       }
+
+      setSuccess(
+        'Doctor registered successfully.'
+      );
+
+      setDoctorData({
+        username: '',
+        password: '',
+        name: '',
+        specialisation: 'Doctor',
+        start_date: '',
+        email: '',
+        contact_number: '',
+        status: 'Active',
+      });
+    } catch (error) {
+      console.error(
+        'Doctor registration error:',
+        error
+      );
+
+      setError(
+        error.message ||
+          'Unable to register doctor.'
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  /* =========================================
+     LOADING
+     ========================================= */
+
+  if (loading) {
+    return (
+      <div className="doctor-form-loading">
+        Loading doctor registration...
+      </div>
+    );
+  }
+
+  /* =========================================
+     ADMINISTRATOR ONLY
+     ========================================= */
+
+  if (userRole !== 'Administrator') {
+    return (
+      <div className="doctor-form-error">
+        Only Administrators can register doctors.
+      </div>
+    );
+  }
+
   return (
-    <div>
-        <Container>
-            <h3 className="text-center mt-3 mb-4">Staff Registration Form</h3>
-            <Form onSubmit={handleSubmit}>
-                <Row>
-                    <Col>
-                        <Form.Control name='name' value={doctorData.name} onChange={handleInputChange} type='text' placeholder="Name" /><br/>
-                        <Form.Select name='specialisation' value={doctorData.specialisation} onChange={handleInputChange} aria-label="Default select example">
-                            <option>Specialisation</option>
-                            <option value="Doctor">Doctor</option>
-                            <option value="Nurse">Nurse</option>
-                            <option value="Er Medic">Er Medic </option>
-                            <option value="Receptionist">Receptionist</option>
-                            <option value="Head Doctor">Head Doctor</option>
-                        </Form.Select><br/>
-                        <Form.Control name='start_date' value={doctorData.start_date} onChange={handleInputChange} type='date' placeholder="Starting Date" /><br/>
-                        <Form.Control name='email' value={doctorData.email} onChange={handleInputChange} type='email' placeholder="example@domain.com" />
-                    </Col>
-                    <Col>
-                        <Form.Select name='gender' value={doctorData.gender} onChange={handleInputChange} aria-label="Default select example">
-                            <option>Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </Form.Select><br/>
-                        <Form.Control name='contact_number' value={doctorData.contact_number} onChange={handleInputChange} type='text' placeholder="Phone Number" /><br/>
-                        <Form.Select name='status' value={doctorData.status} onChange={handleInputChange} aria-label="Default select example">
-                            <option>Status</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                            <option value="On-leave">On-leave</option>
-                        </Form.Select><br/>
-                    </Col>
-                </Row><br/>
-                    <Button variant="primary" type="submit">
-                        Add new Staff
-                    </Button>
-            </Form>
-        </Container>
-        
+    <div className="doctor-form-wrapper">
+
+      {/* HEADER */}
+
+      <div className="doctor-form-header">
+
+        <span className="dashboard-eyebrow">
+          DOCTOR MANAGEMENT
+        </span>
+
+        <h2>
+          Register Doctor
+        </h2>
+
+        <p>
+          Create a doctor profile and login
+          account.
+        </p>
+
+      </div>
+
+      {/* FORM */}
+
+      <form
+        onSubmit={handleSubmit}
+        className="doctor-registration-form"
+      >
+
+        {/* USERNAME */}
+
+        <div className="doctor-form-group">
+
+          <label htmlFor="doctor-username">
+            Username
+          </label>
+
+          <input
+            id="doctor-username"
+            name="username"
+            type="text"
+            value={doctorData.username}
+            onChange={handleInputChange}
+            placeholder="Enter login username"
+            autoComplete="off"
+            required
+          />
+
+        </div>
+
+        {/* PASSWORD */}
+
+        <div className="doctor-form-group">
+
+          <label htmlFor="doctor-password">
+            Password
+          </label>
+
+          <input
+            id="doctor-password"
+            name="password"
+            type="password"
+            value={doctorData.password}
+            onChange={handleInputChange}
+            placeholder="Create login password"
+            autoComplete="new-password"
+            required
+          />
+
+        </div>
+
+        {/* FULL NAME */}
+
+        <div className="doctor-form-group">
+
+          <label htmlFor="doctor-name">
+            Full Name
+          </label>
+
+          <input
+            id="doctor-name"
+            name="name"
+            type="text"
+            value={doctorData.name}
+            onChange={handleInputChange}
+            placeholder="Enter doctor's full name"
+            required
+          />
+
+        </div>
+
+        {/* SPECIALISATION */}
+
+        <div className="doctor-form-group">
+
+          <label htmlFor="doctor-specialisation">
+            Specialisation
+          </label>
+
+          <select
+            id="doctor-specialisation"
+            name="specialisation"
+            value={doctorData.specialisation}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="Doctor">
+              Doctor
+            </option>
+          </select>
+
+        </div>
+
+        {/* START DATE */}
+
+        <div className="doctor-form-group">
+
+          <label htmlFor="doctor-start-date">
+            Start Date
+          </label>
+
+          <input
+            id="doctor-start-date"
+            name="start_date"
+            type="date"
+            value={doctorData.start_date}
+            onChange={handleInputChange}
+            required
+          />
+
+        </div>
+
+        {/* EMAIL */}
+
+        <div className="doctor-form-group">
+
+          <label htmlFor="doctor-email">
+            Email Address
+          </label>
+
+          <input
+            id="doctor-email"
+            name="email"
+            type="email"
+            value={doctorData.email}
+            onChange={handleInputChange}
+            placeholder="doctor@example.com"
+            required
+          />
+
+        </div>
+
+        {/* CONTACT NUMBER */}
+
+        <div className="doctor-form-group">
+
+          <label htmlFor="doctor-contact">
+            Contact Number
+          </label>
+
+          <input
+            id="doctor-contact"
+            name="contact_number"
+            type="tel"
+            value={doctorData.contact_number}
+            onChange={handleInputChange}
+            placeholder="Enter phone number"
+            required
+          />
+
+        </div>
+
+        {/* STATUS */}
+
+        <div className="doctor-form-group">
+
+          <label htmlFor="doctor-status">
+            Status
+          </label>
+
+          <select
+            id="doctor-status"
+            name="status"
+            value={doctorData.status}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="Active">
+              Active
+            </option>
+
+            <option value="Inactive">
+              Inactive
+            </option>
+
+            <option value="On-leave">
+              On Leave
+            </option>
+          </select>
+
+        </div>
+
+        {/* ERROR */}
+
+        {error && (
+          <div className="doctor-form-error">
+            {error}
+          </div>
+        )}
+
+        {/* SUCCESS */}
+
+        {success && (
+          <div className="doctor-form-success">
+            {success}
+          </div>
+        )}
+
+        {/* SUBMIT */}
+
+        <div className="doctor-form-actions">
+
+          <button
+            type="submit"
+            className="doctor-submit-button"
+            disabled={submitting}
+          >
+            {submitting
+              ? 'Registering...'
+              : 'Register Doctor'}
+          </button>
+
+        </div>
+
+      </form>
+
     </div>
-  )
+  );
 }
 
-export default DoctorForm
+export default DoctorForm;
