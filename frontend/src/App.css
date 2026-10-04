@@ -4391,3 +4391,413 @@ td {
     gap: 4px;
   }
 }
+
+/* =========================================================
+   H.A.M.S. MOBILE & TABLET RESPONSIVE LAYER
+   This section only affects smaller screens.
+   Desktop/laptop styles above remain unchanged.
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .hams-header {
+    padding: 0 20px;
+  }
+
+  .app-content {
+    padding: 25px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .feature-row {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-illustration {
+    padding-right: 20px;
+  }
+
+  .form-container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .hams-header {
+    height: 64px;
+    padding: 0 14px;
+  }
+
+  .hams-logo a {
+    font-size: 18px;
+    gap: 7px;
+  }
+
+  .logo-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 19px;
+  }
+
+  .header-title {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .notification-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .hams-sidebar {
+    width: 64px;
+    top: 64px;
+    min-height: calc(100vh - 64px);
+    padding: 18px 8px;
+  }
+
+  .sidebar-title,
+  .sidebar-link span:not(.sidebar-icon) {
+    display: none;
+  }
+
+  .sidebar-link {
+    justify-content: center;
+    gap: 0;
+    padding: 11px 5px;
+  }
+
+  .sidebar-icon {
+    width: auto;
+    font-size: 17px;
+  }
+
+  .app-content {
+    margin-left: 64px;
+    min-width: 0;
+    width: calc(100% - 64px);
+    padding: 18px 14px;
+  }
+
+  .dashboard-container {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .dashboard-cards,
+  .home-card-grid,
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header,
+  .doctor-dashboard-header,
+  .section-heading {
+    display: block;
+  }
+
+  .dashboard-header h1,
+  .doctor-dashboard-header h1 {
+    font-size: 25px;
+  }
+
+  .doctor-dashboard-header > * {
+    margin-bottom: 12px;
+  }
+
+  .welcome-section {
+    min-height: auto;
+    padding: 30px 22px;
+    margin-bottom: 25px;
+  }
+
+  .welcome-content {
+    max-width: 100%;
+  }
+
+  .welcome-content h1 {
+    font-size: 30px;
+  }
+
+  .welcome-content p {
+    font-size: 14px;
+  }
+
+  .welcome-illustration {
+    display: none;
+  }
+
+  .welcome-buttons,
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .welcome-buttons a,
+  .hero-buttons a,
+  .welcome-buttons button,
+  .hero-buttons button {
+    text-align: center;
+  }
+
+  .hero-section {
+    min-height: auto;
+    padding: 45px 22px;
+  }
+
+  .hero-content h1 {
+    font-size: 32px;
+  }
+
+  .features-section {
+    padding: 40px 20px;
+  }
+
+  .feature-row {
+    grid-template-columns: 1fr;
+  }
+
+  .small-feature {
+    min-width: 0;
+  }
+
+  .table-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 15px;
+  }
+
+  .table-container table {
+    min-width: 650px;
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 22px 18px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  .login-wrapper {
+    min-height: calc(100vh - 64px);
+    padding: 18px 14px;
+  }
+
+  .login-card {
+    padding: 28px 20px;
+    border-radius: 12px;
+  }
+
+  .login-card h1 {
+    font-size: 25px;
+  }
+
+  .login-input {
+    font-size: 16px !important;
+  }
+
+  .home-service-card {
+    min-height: 170px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hams-header {
+    padding: 0 10px;
+  }
+
+  .hams-logo a {
+    font-size: 16px;
+  }
+
+  .logo-icon {
+    width: 31px;
+    height: 31px;
+    font-size: 17px;
+  }
+
+  .header-actions {
+    gap: 5px;
+  }
+
+  .notification-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .user-avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+  }
+
+  .hams-sidebar {
+    width: 58px;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .app-content {
+    margin-left: 58px;
+    width: calc(100% - 58px);
+    padding: 15px 10px;
+  }
+
+  .dashboard-header h1,
+  .doctor-dashboard-header h1 {
+    font-size: 22px;
+  }
+
+  .dashboard-card {
+    padding: 18px;
+  }
+
+  .dashboard-card-number {
+    font-size: 25px;
+  }
+
+  .welcome-section {
+    padding: 25px 18px;
+    border-radius: 14px;
+  }
+
+  .welcome-content h1 {
+    font-size: 26px;
+  }
+
+  .welcome-content p {
+    font-size: 13px;
+  }
+
+  .home-service-card {
+    padding: 18px;
+  }
+
+  .section-heading h2 {
+    font-size: 20px;
+  }
+
+  .table-container {
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .form-container {
+    padding: 18px 14px;
+  }
+
+  .login-card {
+    padding: 25px 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .hams-sidebar {
+    width: 52px;
+  }
+
+  .app-content {
+    margin-left: 52px;
+    width: calc(100% - 52px);
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .hams-logo a {
+    font-size: 14px;
+  }
+
+  .logo-icon {
+    width: 29px;
+    height: 29px;
+  }
+
+  .welcome-content h1 {
+    font-size: 23px;
+  }
+
+  .dashboard-header h1,
+  .doctor-dashboard-header h1 {
+    font-size: 20px;
+  }
+
+  .login-card {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+}
+
+@media (max-width: 700px) {
+  img,
+  svg,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    max-width: 100%;
+  }
+
+  .dashboard-card,
+  .home-service-card,
+  .small-feature,
+  .form-container,
+  .login-card,
+  .welcome-section {
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
