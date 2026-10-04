@@ -4801,3 +4801,25 @@ td {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* =========================================
+   MOBILE LOGIN FORM FIX
+   ========================================= */
+
+@media (max-width: 700px) {
+  .login-form-group {
+    display: block;
+    width: 100%;
+  }
+
+  .login-form-group label {
+    display: block;
+    width: 100%;
+    margin-bottom: 9px;
+  }
+
+  .login-input {
+    display: block;
+    width: 100% !important;
+  }
+}
