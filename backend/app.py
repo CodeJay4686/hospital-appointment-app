@@ -2,6 +2,7 @@
 
 from flask import Flask, make_response, request, jsonify, render_template, session, abort
 from flask_migrate import Migrate
+from flask_cors import CORS
 from datetime import datetime
 from flask_restful import Api, Resource
 from werkzeug.exceptions import NotFound
@@ -29,14 +30,37 @@ app = Flask(
     template_folder='../frontend/build'
 )
 
-app.config['SECRET_KEY'] = 'dev-secret-key-change-later'
+app.config['SECRET_KEY'] = os.environ.get(
+    'SECRET_KEY',
+    'dev-secret-key-change-later'
+)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Session settings for production
+if os.environ.get('RENDER'):
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+    app.config['SESSION_COOKIE_SECURE'] = True
+else:
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+    app.config['SESSION_COOKIE_SECURE'] = False
 
 
 migrate = Migrate(app, db)
 
 db.init_app(app)
+
+CORS(
+    app,
+    supports_credentials=True,
+    origins=[
+        'http://localhost:4000',
+        'http://localhost:4001',
+        os.environ.get('FRONTEND_URL', '')
+    ]
+)
+
 api = Api(app)
 
 
